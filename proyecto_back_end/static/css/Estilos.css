@@ -1,0 +1,39 @@
+body {
+    background: linear-gradient(135deg, #0a0a2b, #007066, #14003d); ;
+}
+
+.tarjeta {
+    background: linear-gradient(135deg, #9D4EDD 60%, #00FF9C 100%);
+    color: #fff;
+    border-radius: 1em;
+    box-shadow: 0 4px 16px rgba(35,41,70,0.2);
+    transition: transform 0.2s;
+    margin: 5px ;
+}
+
+.tarjeta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(35,41,70,0.3) ;
+}
+
+.card-title {
+    font-size: 2em;
+    font-family: serif;
+    text-align: center;
+    margin-bottom: 0.5em;
+    color: #D6FFFA ;
+}
+
+.btn-rol {
+    background-color: #00FF9C ;
+    border: none;
+    color: #0f172a;
+    width: 100%;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+}
+
+.btn-rol:hover {
+    background-color: #9D4EDD;
+    color: #E0F2FE;
+}
