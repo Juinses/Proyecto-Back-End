@@ -8,4 +8,5 @@ urlpatterns = [
 
     path('', VistasRol.seleccion_rol),
     path('<str:tipo>/', VistasRol.Tipos_rol, name='Tipos_rol'),
+    path('<str:tipo>/<str:juego_nombre>/', VistasRol.descripcion_rol, name='Descripcion_rol'),
 ]
