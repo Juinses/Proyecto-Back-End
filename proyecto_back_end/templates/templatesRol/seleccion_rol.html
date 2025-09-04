@@ -16,7 +16,7 @@
             {% for tipo,juegos in juegos_rol.items %}
             <div class="col-md-4 mb-4">
                 <div class="card tarjeta h-100">
-                    <img src="{% static 'assets/' %}{{ juegos.1.imagen }}" class="card-img-top" alt="{{ tipo }}">
+                    <img src="{% static 'assets/' %}{{ juegos.1.imagen }}" class="juego-img" alt="{{ tipo }}">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title titulo-rol">{{ tipo|title }}</h5>
                         <a href="{% url 'Tipos_rol' tipo %}" class="btn btn-rol">Ver más</a>
