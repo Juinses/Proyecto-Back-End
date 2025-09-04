@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ juego.nombre }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/Estilos.css' %}">
+    <style>
+        .descripcion {
+            padding-left: 30px;
+        }
+        .juego-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .titulo-juego {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+
+        <!-- Fila principal -->
+        <div class="row">
+            <!-- Columna izquierda: Título + Imagen -->
+            <div class="col-md-6">
+                <h1 class="titulo-juego">{{ juego.nombre }}</h1>
+                <img src="{% static 'assets/' %}{{ juego.imagen }}" alt="{{ juego.nombre }}" class="juego-img mb-3">
+            </div>
+
+            <!-- Columna derecha: Descripción -->
+            <div class="col-md-6 descripcion">
+                <h4>Descripción</h4>
+                <p>{{ juego.descripcion }}</p>
+            </div>
+        </div>
+
+        <!-- Botón volver -->
+        <div class="text-center mt-4">
+            <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
+        </div>
+
+    </div>
+</body>
+</html>
