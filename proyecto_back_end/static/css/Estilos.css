@@ -24,10 +24,13 @@ h1,h2,h3,h4,h5,p {
     transform: scale(1.05);
     box-shadow: 0 8px 24px rgba(35,41,70,0.3) ;
 }
-/* LAS IMAGENES SE AJUSTAN AUTOMATICAMENTE CON ESTO */
-img {
-    max-width: 100%;
-    height: auto;
+.juego-img {
+    width: 100%;             /* ancho completo de la tarjeta */
+    height: 200px;           /* fuerza altura igual a todas */
+    object-fit: cover;       /* recorta la imagen para llenar el espacio */
+    display: block;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
 }
 
 .card-title {
