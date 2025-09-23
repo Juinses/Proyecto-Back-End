@@ -11,35 +11,36 @@
 <body>
     <h2><span id="reloj">{{ hora|date:"H:i:s" }}</span></h2>
     <section class="container mt-5">
-    <h1 class="text-center mb-5">Selección de Juegos de Rol</h1>
-    <section class="container mt-5">
+        <h1 class="text-center mb-5">Selección de Juegos de Rol</h1>
         <div class="row justify-content-center">
-            {% for tipo,juegos in juegos_rol.items %}
+            {% for genero in generos %}
             <div class="col-md-4 mb-4">
                 <div class="card tarjeta h-100">
-                    <img src="{% static 'assets/' %}{{ juegos.1.imagen }}" class="juego-img" alt="{{ tipo }}">
+                    {% if genero.juegos.first %}
+                        <img src="{{ genero.juegos.first.imagen.url }}" class="juego-img" alt="{{ genero.nombre }}">
+                    {% endif %}
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                        <h5 class="card-title titulo-rol">{{ tipo|title }}</h5>
-                        <a href="{% url 'Tipos_rol' tipo %}" class="btn btn-rol">Ver más</a>
+                        <h5 class="card-title titulo-rol">{{ genero.nombre }}</h5>
+                        <a href="{% url 'juegos_por_genero' genero.id %}" class="btn btn-rol">Ver más</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
+
+    <script>
+    function actualizarReloj() {
+        const ahora = new Date(); 
+        const horas = String(ahora.getHours()).padStart(2, '0');
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const segundos = String(ahora.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
+    }
+
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+    </script>
 </body>
 </html>
-
-<script>
-function actualizarReloj() {
-    const ahora = new Date(); 
-    const horas = String(ahora.getHours()).padStart(2, '0');
-    const minutos = String(ahora.getMinutes()).padStart(2, '0');
-    const segundos = String(ahora.getSeconds()).padStart(2, '0');
-    
-    document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
-}
-
-setInterval(actualizarReloj, 1000);
-actualizarReloj();
-</script>

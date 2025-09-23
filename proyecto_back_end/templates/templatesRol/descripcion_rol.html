@@ -29,7 +29,9 @@
             <!-- Columna izquierda: Título + Imagen -->
             <div class="col-md-6">
                 <h1 class="titulo-juego">{{ juego.nombre }}</h1>
-                <img src="{% static 'assets/' %}{{ juego.imagen }}" alt="{{ juego.nombre }}" class="juego-img mb-3">
+                {% if juego.imagen %}
+                    <img src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}" class="juego-img mb-3">
+                {% endif %}
             </div>
 
             <!-- Columna derecha: Descripción -->
@@ -41,23 +43,23 @@
 
         <!-- Botón volver -->
         <div class="text-center mt-4">
-            <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
+            <a href="{% url 'juegos_por_genero' juego.genero.id %}" class="btn btn-primary">Volver</a>
         </div>
 
     </div>
+
+    <script>
+    function actualizarReloj() {
+        const ahora = new Date(); 
+        const horas = String(ahora.getHours()).padStart(2, '0');
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const segundos = String(ahora.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
+    }
+
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+    </script>
 </body>
 </html>
-
-<script>
-function actualizarReloj() {
-    const ahora = new Date(); 
-    const horas = String(ahora.getHours()).padStart(2, '0');
-    const minutos = String(ahora.getMinutes()).padStart(2, '0');
-    const segundos = String(ahora.getSeconds()).padStart(2, '0');
-    
-    document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
-}
-
-setInterval(actualizarReloj, 1000);
-actualizarReloj();
-</script>
