@@ -8,8 +8,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Home: listar géneros
+    #ruta pagina principal
     path('', VistasRol.home, name='home'),
+
+    #rutas juegos
+    # Home: listar géneros
+    path('juegos/', VistasRol.home_juegos, name='home_juegos'),
 
     # Listado de juegos por género
     path('genero/<int:genero_id>/', VistasRol.juegos_por_genero, name='juegos_por_genero'),
@@ -24,8 +28,10 @@ urlpatterns = [
     # Eliminar juego
     path('juego/eliminar/<int:pk>/', VistasRol.eliminar_juego, name='eliminar_juego'),
 
-     # Home: listar empresas
-    path('', VistasConsolas.home, name='home'),
+
+    #rutas empresa
+    # Home: listar empresas
+    path('empresas/', VistasConsolas.home_empresas, name='home_empresas'),
 
     # Listado de consolas por empresa
     path('empresa/<int:empresa_id>/', VistasConsolas.consolas_por_empresa, name='consolas_por_empresa'),

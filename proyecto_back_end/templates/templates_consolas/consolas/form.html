@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{{ accion }} Juego</title>
+    <title>{{ accion }} Consola</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/Estilos.css' %}">
 <style>
@@ -38,7 +38,7 @@
 </head>
 <body>
     <div class="form-container">
-        <h2 class="text-center mb-4">{{ accion }} Juego</h2>
+        <h2 class="text-center mb-4">{{ accion }} Consola</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
@@ -47,7 +47,7 @@
             </div>
         </form>
         <div class="text-center mt-3">
-            <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+            <a href="{% url 'home_empresas' %}" class="btn btn-secondary">Volver</a>
         </div>
     </div>
 </body>
