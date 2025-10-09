@@ -10,29 +10,22 @@
 <body>
     <h2><span id="reloj">{{ hora|date:"H:i:s" }}</span></h2>
     <div class="container mt-5">
-
-        <!-- Fila principal -->
         <div class="row">
-            <!-- Columna izquierda: Título + Imagen -->
             <div class="col-md-6">
                 <h1 class="titulo-juego">{{ consola.nombre }}</h1>
                 {% if consola.imagen %}
                     <img src="{{ consola.imagen.url }}" alt="{{ consola.nombre }}" class="juego-img mb-3">
                 {% endif %}
             </div>
-
-            <!-- Columna derecha: Descripción -->
             <div class="col-md-6 descripcion">
                 <h4>Descripción</h4>
                 <p>{{ consola.descripcion }}</p>
             </div>
         </div>
 
-        <!-- Botón volver -->
         <div class="text-center mt-4">
-            <a href="{% url 'consolas_por_empresa' consola.empresa.id %}" class="btn btn-primary">Volver</a>
+            <a href="{% url 'consolas_por_company' company.id %}" class="btn btn-rol">Volver a la Compañía</a>
         </div>
-
     </div>
 
     <script>
@@ -41,10 +34,8 @@
         const horas = String(ahora.getHours()).padStart(2, '0');
         const minutos = String(ahora.getMinutes()).padStart(2, '0');
         const segundos = String(ahora.getSeconds()).padStart(2, '0');
-        
         document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
     }
-
     setInterval(actualizarReloj, 1000);
     actualizarReloj();
     </script>

@@ -1,61 +1,69 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import companies, consola
+from .models import Company, Consola
 from .forms import ConsolaForm
 
-# Home: listado de empresas
-def home_empresas(request):
-    empresas = companies.objects.all()
-    return render(
-        request,
-        'templates_consolas/seleccion_empresa.html',
-        {'empresas': empresas}
-    )
+# Home: listado de empresas (companies)
+def home_companies(request):
+    companies = Company.objects.all()
+    return render(request, 'templates_consolas/seleccion_empresa.html', {'companies': companies})
 
-# Listado de consolas por empresa + buscador
-def consolas_por_empresa(request, empresa_id):
-    empresa = get_object_or_404(companies, id=empresa_id)
-    consolas = empresa.consolas.all()
+# Listado de consolas por company + buscador
+def consolas_por_company(request, company_id):
+    company = get_object_or_404(Company, id=company_id)
+    consolas = company.consolas.all()  # usa related_name="consolas"
 
     if query := request.GET.get("q"):
         consolas = consolas.filter(nombre__icontains=query)
 
-    return render(
-        request,
-        'templates_consolas/consolas.html',
-        {'empresa': empresa, 'consolas': consolas}
-    )
+    return render(request, 'templates_consolas/consolas.html', {
+        'company': company,
+        'consolas': consolas
+    })
 
-# Detalle de la consola
+# Detalle de consola
 def descripcion_consola(request, consola_id):
-    consola_obj = get_object_or_404(consola, id=consola_id)
-    return render(request, 'templates_consolas/descripcion_consolas.html', {'consola': consola_obj})
+    consola = get_object_or_404(Consola, id=consola_id)
+    company = consola.empresa  # Obtiene la empresa asociada
+    return render(request, 'templates_consolas/descripcion_consolas.html', {
+        'consola': consola,
+        'company': company
+    })
 
 # Crear o editar consola
-def manejar_consola(request, pk=None):
-    consola_obj = get_object_or_404(consola, pk=pk) if pk else None
+def manejar_consola(request, pk=None, company_id=None):
+    consola = get_object_or_404(Consola, pk=pk) if pk else None
+    company = get_object_or_404(Company, id=company_id) if company_id else None
 
     if request.method == "POST":
-        form = ConsolaForm(request.POST, request.FILES, instance=consola_obj)
+        form = ConsolaForm(request.POST, request.FILES, instance=consola)
         if form.is_valid():
-            consola_guardada = form.save()
-            # Redirige al listado de consolas de la empresa correspondiente
-            return redirect('consolas_por_empresa', empresa_id=consola_guardada.empresa.id)
+            consola_guardada = form.save(commit=False)
+            if company:
+                consola_guardada.empresa = company
+            consola_guardada.save()
+            return redirect('consolas_por_company', company_id=company.id) if company else redirect('home_empresas')
     else:
-        form = ConsolaForm(instance=consola_obj)
+        form = ConsolaForm(instance=consola)
 
-    accion = 'Editar' if consola_obj else 'Crear'
-    return render(request, 'templates_consolas/consolas/form.html', {'form': form, 'accion': accion})
+    accion = 'Editar' if consola else 'Crear'
+
+    return render(request, 'templates_consolas/consolas/form.html', {
+        'form': form,
+        'accion': accion,
+        'company': company
+    })
+
 
 # Eliminar consola
 def eliminar_consola(request, pk):
-    consola_obj = get_object_or_404(consola, pk=pk)
+    consola_obj = get_object_or_404(Consola, pk=pk)
     if request.method == "POST":
-        empresa_id = consola_obj.empresa.id  # guardamos empresa antes de eliminar
+        company_id = consola_obj.company.id  # guardamos company antes de eliminar
         consola_obj.delete()
-        return redirect('consolas_por_empresa', empresa_id=empresa_id)
+        return redirect('consolas_por_company', company_id=company_id)
     return render(request, 'templates_consolas/consolas/eliminar.html', {'consola': consola_obj})
 
 # Lista de empresas
-def lista_empresas(request):
-    empresas = companies.objects.all()
-    return render(request, 'templates_consolas/lista.html', {'empresas': empresas})
+def lista_companies(request):
+    companies = Company.objects.all()
+    return render(request, 'templates_consolas/lista.html', {'companies': companies})

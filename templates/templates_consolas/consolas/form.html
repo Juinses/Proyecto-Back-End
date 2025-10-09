@@ -5,49 +5,22 @@
     <meta charset="UTF-8">
     <title>{{ accion }} Consola</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/Estilos.css' %}">
-<style>
-    body {
-        background-color: #1e1e2f; /* fondo oscuro */
-        color: #f8f9fa; /* texto claro */
-    }
-    .form-container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 30px;
-        background: #2c2c3e; /* contenedor un poco más claro que el fondo */
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    .btn-guardar {
-        background-color: #ff6f3c; /* naranja */
-        color: white;
-    }
-    .btn-guardar:hover {
-        background-color: #ff5722;
-    }
-    a.btn-secondary {
-        background-color: #44475a; /* gris oscuro */
-        color: #f8f9fa;
-    }
-    a.btn-secondary:hover {
-        background-color: #3b3b50;
-    }
-</style>
-
+    <link rel="stylesheet" href="{% static 'css/estilo_consolas.css' %}">
 </head>
 <body>
-    <div class="form-container">
-        <h2 class="text-center mb-4">{{ accion }} Consola</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="d-grid gap-2 mt-3">
-                <button type="submit" class="btn btn-guardar btn-lg">Guardar</button>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="tarjeta p-4" style="max-width: 500px; width: 100%;">
+            <h2 class="text-center mb-4">{{ accion }} Consola</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn btn-rol btn-lg">Guardar</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{% url 'consolas_por_company' company.id %}" class="btn btn-rol">Volver a la Compañía</a>
             </div>
-        </form>
-        <div class="text-center mt-3">
-            <a href="{% url 'home_empresas' %}" class="btn btn-secondary">Volver</a>
         </div>
     </div>
 </body>

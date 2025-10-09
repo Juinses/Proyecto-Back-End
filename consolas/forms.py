@@ -1,6 +1,7 @@
 from django import forms
-from .models import companies, consola
+from .models import Company, Consola
 
+# Formulario para Company
 class EmpresaForm(forms.ModelForm):
     nombre = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -8,17 +9,36 @@ class EmpresaForm(forms.ModelForm):
             'placeholder': 'Ingrese el nombre de la empresa'
         })
     )
+    pais_origen = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingrese el país de origen'
+        })
+    )
+    anio_salida = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingrese el año de salida'
+        })
+    )
+    cantidad_consolas = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Cantidad de consolas lanzadas'
+        })
+    )
 
     class Meta:
-        model = companies 
-        fields = '__all__'
+        model = Company
+        fields = ['nombre', 'pais_origen', 'anio_salida', 'cantidad_consolas']
 
 
+# Formulario para Consola
 class ConsolaForm(forms.ModelForm):
     nombre = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Ingrese la consola'
+            'placeholder': 'Ingrese el nombre de la consola'
         })
     )
     descripcion = forms.CharField(
@@ -34,11 +54,27 @@ class ConsolaForm(forms.ModelForm):
             'class': 'form-control'
         })
     )
-    empresa = forms.ModelChoiceField( 
-        queryset=companies.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-select'})
+    anio_salida = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Año de lanzamiento'
+        })
+    )
+    ventas_totales = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ventas totales'
+        })
+    )
+    juegos_vendidos = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Juegos vendidos'
+        })
     )
 
     class Meta:
-        model = consola 
-        fields = '__all__'
+        model = Consola
+        fields = ['nombre', 'descripcion', 'imagen', 'anio_salida', 'ventas_totales', 'juegos_vendidos']

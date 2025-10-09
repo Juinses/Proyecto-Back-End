@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Genero
+from .models import Plataforma
 
-@admin.register(Genero)
-class GeneroAdmin(admin.ModelAdmin):
+@admin.register(Plataforma)
+class PlataformaAdmin(admin.ModelAdmin):
     list_display = ("nombre",)
     search_fields = ("nombre",)
 

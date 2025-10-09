@@ -1,28 +1,30 @@
 from django.db import models
 
-class companies(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-#Unique hace referencia a que no pueden existir dos compañias con el mismo nombre.
-    def __str__(self):
-        return self.nombre
+class Company(models.Model):
+  nombre = models.CharField(max_length=100, unique=True)
+  pais_origen = models.CharField(max_length=100) # País de origen
+  anio_salida = models.PositiveIntegerField(default=1990)
+  cantidad_consolas = models.PositiveIntegerField(default=0) # Consolas lanzadas
 
-    class Meta:
-        verbose_name = "Company"          # Nombre en singular
-        verbose_name_plural = "Companies" # Nombre en plural
+  def __str__(self):
+    return self.nombre
+
+  class Meta:
+    verbose_name = "Company"
+    verbose_name_plural = "Companies"
 
 
-class consola(models.Model):
-    nombre = models.CharField(max_length=20)
+class Consola(models.Model):
+  nombre = models.CharField(max_length=50)
+  imagen = models.ImageField(upload_to="consolas/", blank=True, null=True)
+  descripcion = models.TextField()
+  empresa = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="consolas")
+  anio_salida = models.PositiveIntegerField() # Año de lanzamiento
+  ventas_totales = models.PositiveIntegerField(default=0) # Unidades vendidas
+  juegos_vendidos = models.PositiveIntegerField(default=0) # Juegos vendidos para esta consola
 
-    imagen = models.ImageField(upload_to="consolas/", blank=True, null=True)
-#blanck = True: permite que los caracteres en la validacion de django esten vacios.
-#null = True: permite que en la BDD los campos sean guardados como nulos.
-    descripcion = models.TextField()
-#TextField(): Al estar vacio obliga a que hayan caracteres a menos que se añadan blank=true y null=true)
-    empresa = models.ForeignKey(companies, on_delete=models.CASCADE, related_name="consolas")  # mejor nombre
-
-    def __str__(self):
-        return self.nombre
+  def __str__(self):
+    return self.nombre
     
 #NO USAR BLANCK=true para CharField o TextField para evitar consultas complejas con la BDD y posibles incongruencias. ejemplo: guardar un campo " " como null.
 #Dejarlo Sencillo y Facilito :) 

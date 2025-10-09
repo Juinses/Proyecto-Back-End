@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import companies
+from .models import Company
 
-@admin.register(companies)
-class companiesAdmin(admin.ModelAdmin):
-    list_display = ("nombre",)  
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "pais_origen", "anio_salida", "cantidad_consolas")
     search_fields = ("nombre",)

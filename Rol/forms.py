@@ -1,17 +1,17 @@
 from django import forms
-from .models import Genero, Juego
+from .models import Plataforma, Juego
 
 
-class GeneroForm(forms.ModelForm):
+class PlataformaForm(forms.ModelForm):
     nombre = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Ingrese el nombre del género'
+            'placeholder': 'Ingrese el nombre de la plataforma'
         })
     )
 
     class Meta:
-        model = Genero
+        model = Plataforma
         fields = '__all__'
 
 
@@ -35,11 +35,7 @@ class JuegoForm(forms.ModelForm):
             'class': 'form-control'
         })
     )
-    genero = forms.ModelChoiceField(
-        queryset=Genero.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-select'})
-    )
 
     class Meta:
         model = Juego
-        fields = '__all__'
+        fields = ['nombre', 'descripcion', 'imagen']

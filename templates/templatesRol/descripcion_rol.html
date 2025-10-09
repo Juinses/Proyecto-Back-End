@@ -43,7 +43,7 @@
 
         <!-- Botón volver -->
         <div class="text-center mt-4">
-            <a href="{% url 'juegos_por_genero' juego.genero.id %}" class="btn btn-primary">Volver</a>
+            <a href="{% url 'juegos_por_plataforma' juego.plataforma.id %}" class="btn btn-primary" onclick="history.back()">Volver</a>
         </div>
 
     </div>
