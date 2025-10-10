@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block contenido %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background: linear-gradient(135deg, #0a0a2b, #1a0070);">
+    <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 1em;">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold text-warning">Inicio de Sesión</h3>
+            <p class="text-white-50">Ingresa tus credenciales para continuar</p>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+        </div>
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                Usuario o contraseña incorrectos.
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form layout='vertical' %}
+
+            <div class="d-flex justify-content-between mt-3">
+                <button type="reset" class="btn btn-secondary">Cancelar</button>
+                <button type="submit" class="btn btn-warning text-dark fw-bold">Ingresar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

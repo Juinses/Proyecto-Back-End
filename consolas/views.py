@@ -57,10 +57,14 @@ def manejar_consola(request, pk=None, company_id=None):
 # Eliminar consola
 def eliminar_consola(request, pk):
     consola_obj = get_object_or_404(Consola, pk=pk)
+    empresa_id = consola_obj.empresa.id if consola_obj.empresa else None  # usar "empresa"
+
     if request.method == "POST":
-        company_id = consola_obj.company.id  # guardamos company antes de eliminar
         consola_obj.delete()
-        return redirect('consolas_por_company', company_id=company_id)
+        if empresa_id:
+            return redirect('consolas_por_company', company_id=empresa_id)
+        return redirect('/')  # fallback al home
+
     return render(request, 'templates_consolas/consolas/eliminar.html', {'consola': consola_obj})
 
 # Lista de empresas
