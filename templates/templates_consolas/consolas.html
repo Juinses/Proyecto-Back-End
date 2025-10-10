@@ -13,13 +13,20 @@
     <div class="container mt-5">
         <h1 class="mb-4 text-center">{{ company.nombre }} - Consolas</h1>
 
+        <!-- Botón para agregar -->
         <div class="text-center mb-4">
             <a href="{% url 'crear_consola' company.id %}" class="btn btn-success">Agregar Consola</a>
         </div>
 
-        <div class="row justify-content-center">
+        <!-- Barra de búsqueda -->
+        <div class="search-bar mb-5">
+            <input type="text" id="buscarConsola" class="form-control text-center" placeholder="Buscar consola por nombre...">
+        </div>
+
+        <!-- Lista de consolas -->
+        <div class="row justify-content-center" id="listaConsolas">
             {% for c in consolas %}
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4 consola-item">
                 <div class="card tarjeta h-100">
                     {% if c.imagen %}
                     <img src="{{ c.imagen.url }}" class="juego-img" alt="{{ c.nombre }}">
@@ -27,7 +34,7 @@
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h5 class="card-title">{{ c.nombre }}</h5>
                         <a href="{% url 'descripcion_consola' c.id %}" class="btn btn-rol mb-2">Ver detalles</a>
-                        <a href="{% url 'editar_consola' c.id %}" class="btn btn-rol mb-2">Editar</a>
+                        <a href="{% url 'editar_consola' pk=c.id company_id=company.id %}" class="btn btn-rol mb-2">Editar</a>
                         <a href="{% url 'eliminar_consola' c.id %}" class="btn btn-danger">Eliminar</a>
                     </div>
                 </div>
@@ -36,12 +43,16 @@
             <p class="text-center">No hay consolas para esta compañía.</p>
             {% endfor %}
         </div>
+
+        <!-- Botón volver -->
         <div class="text-center mt-4">
-            <a href="{% url 'consolas_por_company' company.id %}" class="btn btn-rol">Volver a la Compañía</a>
+            <a href="{% url 'home_empresas' %}" class="btn btn-rol">Volver a la lista de Compañías</a>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script>
+    // Reloj en tiempo real
     function actualizarReloj() {
         const ahora = new Date(); 
         const horas = String(ahora.getHours()).padStart(2, '0');
@@ -51,6 +62,16 @@
     }
     setInterval(actualizarReloj, 1000);
     actualizarReloj();
+
+    // Filtro de búsqueda
+    document.getElementById('buscarConsola').addEventListener('input', function() {
+        const filtro = this.value.toLowerCase();
+        const items = document.querySelectorAll('.consola-item');
+        items.forEach(item => {
+            const nombre = item.querySelector('.card-title').textContent.toLowerCase();
+            item.style.display = nombre.includes(filtro) ? 'block' : 'none';
+        });
+    });
     </script>
 </body>
 </html>

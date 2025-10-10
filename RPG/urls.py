@@ -25,7 +25,7 @@ urlpatterns = [
     path('empresa/<int:company_id>/', VistasConsolas.consolas_por_company, name='consolas_por_company'),
     path('consola/<int:consola_id>/', VistasConsolas.descripcion_consola, name='descripcion_consola'),
     path('empresa/<int:company_id>/consola/crear/', VistasConsolas.manejar_consola, name='crear_consola'),
-    path('consola/editar/<int:pk>/', VistasConsolas.manejar_consola, name='editar_consola'),
+    path('consola/editar/<int:pk>/empresa/<int:company_id>/', VistasConsolas.manejar_consola, name='editar_consola'),
     path('consola/eliminar/<int:pk>/', VistasConsolas.eliminar_consola, name='eliminar_consola'),
 ]
 
