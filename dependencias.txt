@@ -2,4 +2,4 @@ django == 4.1
 mysqlclient
 pillow
 django-crispy-forms
-crispy-bootstrap5
+django-bootstrap5

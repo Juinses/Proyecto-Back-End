@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'consolas',
     'crispy_forms',
     'django_bootstrap5',
+    'TiendaJuegosApi',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
