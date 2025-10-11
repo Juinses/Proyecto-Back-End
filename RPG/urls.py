@@ -6,11 +6,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from TiendaJuegosApi import views as rol_views
+from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    # Login y logout
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
 
     # ruta página principal
     path('', VistasRol.home, name='home'),
@@ -43,6 +46,10 @@ urlpatterns = [
     # Juegos
     path('api/juegos/', rol_views.juego_listado, name='juego_listado'),
     path('api/juegos/<int:pk>/', rol_views.juego_detalle, name='juego_detalle'),
+
+    # JWT Auth
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 if settings.DEBUG:
