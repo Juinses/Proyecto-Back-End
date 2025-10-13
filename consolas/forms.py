@@ -75,6 +75,15 @@ class ConsolaForm(forms.ModelForm):
         })
     )
 
+    labels = {
+            'nombre': 'Nombre:',
+            'descripcion': 'Descripción:',
+            'imagen': 'Imagen:',
+            'anio_salida': 'Año de lanzamiento:',
+            'ventas_totales': 'Ventas totales:',
+            'juegos_vendidos': 'Juegos vendidos:'
+        }
+
     class Meta:
         model = Consola
         fields = ['nombre', 'descripcion', 'imagen', 'anio_salida', 'ventas_totales', 'juegos_vendidos']
