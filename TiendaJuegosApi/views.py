@@ -1,7 +1,10 @@
-from rest_framework.decorators import api_view
+from rest_framework import viewsets, generics
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from django.contrib.auth.models import User
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import JsonResponse
+from rest_framework_simplejwt.tokens import RefreshToken
 from Rol.models import Juego
 from consolas.models import Consola
 from .serializers import UserSerializer, ConsolaSerializer, JuegoSerializer

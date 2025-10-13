@@ -3,4 +3,3 @@ mysqlclient
 pillow
 django-crispy-forms
 django-bootstrap5
-djangorestframework-simplejwt

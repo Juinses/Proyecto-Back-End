@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from consolas.models import Consola
 from Rol.models import Juego
 from django.utils import timezone
