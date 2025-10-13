@@ -1,47 +1,60 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Juego, Plataforma
 from .forms import JuegoForm
 
-# Home: listar plataformas
+# ---------------------- Helpers ----------------------
+def es_admin(user):
+    return user.is_staff
+
+# ---------------------- Vistas públicas ----------------------
 def home_juegos(request):
     plataformas = Plataforma.objects.all()
     return render(request, 'templatesrol/seleccion_rol.html', {'plataformas': plataformas})
 
-# Listado de juegos por plataforma + buscador
 def juegos_por_plataforma(request, plataforma_id):
-    plataforma = Plataforma.objects.get(id=plataforma_id)
+    plataforma = get_object_or_404(Plataforma, id=plataforma_id)
     juegos = Juego.objects.filter(plataforma=plataforma)
-    return render(request, 'templatesrol/tipos_rol.html', {  
+
+    # Guardar la URL anterior
+    previous_url = request.META.get('HTTP_REFERER', '/')
+
+    return render(request, 'templatesrol/tipos_rol.html', {
         'plataforma': plataforma,
-        'juegos': juegos
+        'juegos': juegos,
+        'previous_url': previous_url
     })
 
-# Detalle del juego
 def descripcion_rol(request, juego_id):
     juego = get_object_or_404(Juego, id=juego_id)
     return render(request, 'templatesrol/descripcion_rol.html', {'juego': juego})
 
-# Crear o editar juego
-def manejar_juego(request, pk=None, plataforma_id=None):
-    # Si pk viene, estamos editando; si no, estamos creando
-    juego = get_object_or_404(Juego, pk=pk) if pk else None
+def home(request):
+    return render(request, 'home.html')
 
-    # Si hay plataforma_id, lo usamos para asignar el juego
+# ---------------------- Logout ----------------------
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+# ---------------------- CRUD juegos (solo admin) ----------------------
+@login_required
+@user_passes_test(es_admin, login_url='home')  # Redirige a home si no es admin
+def manejar_juego(request, pk=None, plataforma_id=None):
+    juego = get_object_or_404(Juego, pk=pk) if pk else None
     plataforma = get_object_or_404(Plataforma, id=plataforma_id) if plataforma_id else None
 
     if request.method == "POST":
         form = JuegoForm(request.POST, request.FILES, instance=juego)
         if form.is_valid():
             juego_guardado = form.save(commit=False)
-            if plataforma:  # Solo asignamos plataforma si viene
+            if plataforma:
                 juego_guardado.plataforma = plataforma
             juego_guardado.save()
             
-            # Redirige a la lista de juegos de la plataforma si hay plataforma_id
-            if plataforma:
-                return redirect('juegos_por_plataforma', plataforma_id=plataforma.id)
-            else:
-                return redirect('home_juegos')  # O donde quieras redirigir si no hay plataforma
+            # Redirige a la lista de juegos de la plataforma si aplica
+            return redirect('juegos_por_plataforma', plataforma_id=plataforma.id) if plataforma else redirect('home_juegos')
     else:
         form = JuegoForm(instance=juego)
 
@@ -53,16 +66,12 @@ def manejar_juego(request, pk=None, plataforma_id=None):
         'plataforma': plataforma
     })
 
-# Eliminar juego
+@login_required
+@user_passes_test(es_admin, login_url='home')
 def eliminar_juego(request, pk):
     juego = get_object_or_404(Juego, pk=pk)
     if request.method == "POST":
-        plataforma_id = juego.plataforma.id  # Guardamos la plataforma antes de eliminar
+        plataforma_id = juego.plataforma.id
         juego.delete()
         return redirect('juegos_por_plataforma', plataforma_id=plataforma_id)
     return render(request, 'templatesrol/juegos/eliminar.html', {'juego': juego})
-
-
-# Página principal
-def home(request):
-    return render(request, 'home.html')

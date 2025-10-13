@@ -45,12 +45,14 @@
             <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
 
-        <!-- Botón Agregar -->
+        <!-- Botón Agregar (solo admins) -->
+        {% if user.is_staff %}
         <div class="text-center mb-4">
             <a href="{% url 'crear_juego' plataforma.id %}" class="btn btn-success">Agregar Juego</a>
         </div>
+        {% endif %}
 
-        <!-- Lista vertical -->
+        <!-- Lista de juegos -->
         <div class="list-group">
             {% for juego in juegos %}
             <div class="list-group-item tarjeta d-flex align-items-center">
@@ -64,8 +66,11 @@
                     <h5>{{ juego.nombre }}</h5>
                     <p>{{ juego.descripcion|truncatewords:20 }}</p>
                     <a href="{% url 'descripcion_rol' juego_id=juego.id %}" class="btn btn-rol btn-sm me-2">Más info</a>
-                    <a href="{% url 'editar_juego' pk=juego.id %}" class="btn btn-warning btn-sm me-2">Editar</a>
-                    <a href="{% url 'eliminar_juego' pk=juego.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+
+                    {% if user.is_staff %}
+                        <a href="{% url 'editar_juego' pk=juego.id %}" class="btn btn-warning btn-sm me-2">Editar</a>
+                        <a href="{% url 'eliminar_juego' pk=juego.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    {% endif %}
                 </div>
             </div>
             {% empty %}
@@ -75,21 +80,21 @@
 
         <!-- Botón Volver -->
         <div class="text-center mt-4">
-            <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+            <a href="{% url 'home_juegos' %}" class="btn btn-secondary">Volver</a>
         </div>
     </div>
 
     <script>
-    function actualizarReloj() {
-        const ahora = new Date(); 
-        const horas = String(ahora.getHours()).padStart(2, '0');
-        const minutos = String(ahora.getMinutes()).padStart(2, '0');
-        const segundos = String(ahora.getSeconds()).padStart(2, '0');
-        document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
-    }
+        function actualizarReloj() {
+            const ahora = new Date(); 
+            const horas = String(ahora.getHours()).padStart(2, '0');
+            const minutos = String(ahora.getMinutes()).padStart(2, '0');
+            const segundos = String(ahora.getSeconds()).padStart(2, '0');
+            document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
+        }
 
-    setInterval(actualizarReloj, 1000);
-    actualizarReloj();
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
     </script>
 </body>
 </html>

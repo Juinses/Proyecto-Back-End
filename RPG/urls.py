@@ -1,19 +1,23 @@
 from django.contrib import admin
-from django.urls import path
-from Rol import views as VistasRol
-from consolas import views as VistasConsolas
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from Rol import views as VistasRol
+from consolas import views as VistasConsolas
 from TiendaJuegosApi import views as rol_views
-from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,)
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register(r'consolas', rol_views.ConsolaViewSet, basename='consola')
+router.register(r'juegos', rol_views.JuegoViewSet, basename='juego')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Login y logout
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('logout/', VistasRol.logout_view, name='logout'),
 
     # ruta página principal
     path('', VistasRol.home, name='home'),
@@ -35,17 +39,12 @@ urlpatterns = [
     path('consola/editar/<int:pk>/empresa/<int:company_id>/', VistasConsolas.manejar_consola, name='editar_consola'),
     path('consola/eliminar/<int:pk>/', VistasConsolas.eliminar_consola, name='eliminar_consola'),
 
-    # Rutas API
-    path('api/consolas/', rol_views.consolasApi, name='api_consolas'),
-    path('api/juegos/', rol_views.juegosApi, name='api_juegos'),
+    # 🔹 API REST de TiendaJuegosApi
+    path('api/', include(router.urls)),
 
-    # Consolas
-    path('api/consolas/', rol_views.consola_listado, name='consola_listado'),
-    path('api/consolas/<int:pk>/', rol_views.consola_detalle, name='consola_detalle'),
-
-    # Juegos
-    path('api/juegos/', rol_views.juego_listado, name='juego_listado'),
-    path('api/juegos/<int:pk>/', rol_views.juego_detalle, name='juego_detalle'),
+    # Rutas extra de autenticación y usuarios
+    path('api/register/', rol_views.RegisterView.as_view(), name='register'),
+    path('api/logout/', rol_views.LogoutView.as_view(), name='api_logout'),
 
     # JWT Auth
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

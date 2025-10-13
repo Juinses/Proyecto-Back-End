@@ -50,4 +50,3 @@ class LogoutView(APIView):
             return Response({"detail": "Logout exitoso"}, status=status.HTTP_205_RESET_CONTENT)
         except Exception:
             return Response({"error": "Token inválido o faltante"}, status=status.HTTP_400_BAD_REQUEST)
-        
