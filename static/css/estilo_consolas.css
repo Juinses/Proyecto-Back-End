@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(135deg, #41042c, #610268);
+    background: linear-gradient(135deg, #044136, #0d6e5c);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -14,7 +14,7 @@ h1,h2,h3,h4,h5,p {
 
 /*LA TARJETA DIOS MIO!!! */
 .tarjeta {
-    background: linear-gradient(135deg, #000538 60%,#210373 100%);
+    background: linear-gradient(135deg,  #097964 ,#14a88c );
     color: #fff;
     border-radius: 1em;
     box-shadow: 0 4px 16px rgba(35,41,70,0.2);
@@ -44,7 +44,7 @@ h1,h2,h3,h4,h5,p {
 }
 
 .btn-rol {
-    background-color: #004e86 ;
+    background-color: #003834 ;
     border: none;
     color: #ffffff;
     width: 100%;
@@ -53,12 +53,12 @@ h1,h2,h3,h4,h5,p {
 }
 
 .btn-rol:hover {
-    background-color: #0a0a2b;
+    background-color: #012220;
     color: #ffffff;
 } 
 
 .navbar-custom {
-    background: linear-gradient(135deg, #0a0a2b, #1a0070);
+    background: linear-gradient(135deg, #03062f, #1a0070);
     padding: 1em;
     box-shadow: 0 2px 10px rgba(0,0,0,0.6);
     position: sticky; /* siempre visible arriba */
@@ -84,7 +84,7 @@ h1,h2,h3,h4,h5,p {
 }
 
 .tarjeta-landing {
-    background: linear-gradient(135deg, #004e86 60%, #0a0a2b 100%);
+    background: linear-gradient(135deg, #004e86 60%, #6d6d9c 100%);
     border-radius: 1em;
     box-shadow: 0 4px 16px rgba(0,0,0,0.4);
     transition: transform 0.3s ease;
