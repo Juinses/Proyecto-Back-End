@@ -74,7 +74,7 @@ DATABASES = {
         'USER': 'Belmont',            # tu usuario
         'PASSWORD': 'alucard',        # tu contraseña
         'HOST': 'localhost',          # o la IP del servidor MySQL
-        'PORT': '3306',               # puerto por defecto de MySQL
+        'PORT': '3308',               # puerto por defecto de MySQL
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
