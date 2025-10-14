@@ -39,20 +39,15 @@ urlpatterns = [
     path('consola/editar/<int:pk>/empresa/<int:company_id>/', VistasConsolas.manejar_consola, name='editar_consola'),
     path('consola/eliminar/<int:pk>/', VistasConsolas.eliminar_consola, name='eliminar_consola'),
 
-    # Rutas API
-    path('api/consolas/', rol_views.consolasApi, name='api_consolas'),
-    path('api/juegos/', rol_views.juegosApi, name='api_juegos'),
-
     # Consolas
+    path('api/consolas/json/', rol_views.consolasApi, name='consolas_json'),
     path('api/consolas/', rol_views.consola_listado, name='consola_listado'),
     path('api/consolas/<int:pk>/', rol_views.consola_detalle, name='consola_detalle'),
 
     # Juegos
+    path('api/juegos/json/', rol_views.juegosApi, name='juegos_json'),
     path('api/juegos/', rol_views.juego_listado, name='juego_listado'),
     path('api/juegos/<int:pk>/', rol_views.juego_detalle, name='juego_detalle'),
-
-    # 🔹 API REST de TiendaJuegosApi
-    path('api/', include(router.urls)),
 
     # Rutas extra de autenticación y usuarios
     path('api/register/', rol_views.RegisterView.as_view(), name='register'),
